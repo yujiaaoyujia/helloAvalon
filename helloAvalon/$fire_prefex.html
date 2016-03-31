@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head lang = "en">
+  <meta charset = "UTF-8">
+  <title>$watch</title>
+  <script src="js/avalon.js"></script>
+  <script>
+    var ancestor = avalon.define({
+      $id: "ancestor",
+      click: function(){
+        avalon.log("向下捕获");
+        ancestor.$fire("down!aaa", "capture");
+      }
+    });
+    ancestor.$watch( "aaa", function(v){
+      avalon.log(v);
+      avalon.log("ancestor.aaa事件被触发了");
+    });
+
+    var parent = avalon.define({
+      $id: "parent",
+      aaa: "3333333333",
+      click: function(){
+        console.log("全局广播");
+        parent.$fire( "all!aaa", "boardcast" );
+      }
+    });
+    parent.$watch( "aaa", function(v){
+      avalon.log(v);
+      avalon.log("parent.aaa事件被触发了");
+    });
+
+    var son = avalon.define({
+      $id: "son",
+      click: function(){
+        console.log("向上冒泡");
+        son.$fire( "up!aaa", "bubble" );
+      }
+    });
+    son.$watch( "aaa", function(v){
+      avalon.log(v);
+      avalon.log("parent.aaa事件被触发了");
+    });
+
+  </script>
+  <style>
+
+  </style>
+</head>
+<body ms-controller="ancestor">
+  <h3>模块通信 vm.$fire升级版</h3>
+  <button type="button" ms-click="click">capture</button>
+  <div ms-controller="parent">
+    <button type="button" ms-click="click">broadcast</button>
+    <div ms-controller="son">
+      <button type="button" ms-click="click">bubble</button>
+    </div>
+  </div>
+</body>
+</html>

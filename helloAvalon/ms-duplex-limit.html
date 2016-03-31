@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ms-duplex-limit 插件</title>
+    <script src="js/avalon.js"></script>
+    <script>
+        avalon.ready(function(){
+            var vm = avalon.define({
+                $id: "test",
+                value: "123456"
+            });
+            avalon.scan();
+        });
+        //添加一个拦截器(限制用户输入长度)
+        //avalon.duplexHooks.yjao = {
+        avalon.duplexHooks.limit = {
+            get: function (str, data) {
+                var limit = parseFloat(data.element.getAttribute("data-duplex-limit"));
+                if(str.length > limit){
+                    return data.element.value = str.slice(0,limit);
+                }
+                return str;
+            }
+        };
+    </script>
+</head>
+<body>
+    <div ms-controller="test">
+        <input ms-duplex-limit="value" data-duplex-limit="8"/> {{value}}
+    </div>
+</body>
+</html>

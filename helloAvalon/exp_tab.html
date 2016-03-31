@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang = "en">
+  <meta charset = "UTF-8">
+  <title>tab</title>
+  <script src="js/avalon.js"></script>
+  <style>
+    .panel{
+      width: 80%;
+      height: 100px;
+      border: 1px solid #ccc;
+    }
+  </style>
+  <script>
+    var vm = avalon.define({
+      $id: "tabs",
+      array: [
+        {text: "11111111111"},
+        {text: "22222222222"},
+        {text: "33333333333"},
+        {text: "44444444444"}
+      ],
+      currentIndex: 0,
+      toggle: function(i){
+        vm.currentIndex = i;
+      }
+    });
+  </script>
+</head>
+<body ms-controller="tabs">
+  <button ms-repeat="array" ms-click="toggle($index)">{{$index}}</button>
+  <div ms-repeat="array" ms-if-loop="$index === currentIndex" class="panel">{{el.text}}</div>
+</body>
+</html>

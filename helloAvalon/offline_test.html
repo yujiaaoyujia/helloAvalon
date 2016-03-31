@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head lang = "en">
+  <meta charset = "UTF-8">
+  <title>loadcover</title>  
+</head>
+<body>
+
+<script>
+  var text = "<font>sdfqawgee</font><br><font>aaaaaaa</font>";
+  text = text.replace("<br>","enterFlag");
+  text = text.replace(/<\/?.+?>/g,"");
+  text = text.replace("enterFlag","<br>");
+  alert(text);
+</script>
+</body>
+</html>

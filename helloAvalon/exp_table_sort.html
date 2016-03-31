@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang = "en">
+  <meta charset = "UTF-8">
+  <title>table sort</title>
+  <script src="js/avalon.js"></script>
+  <script>
+    var model = avalon.define({
+      $id: "repeatgrid",
+      options: ["name", "size", "date"],
+      data: [
+        {name: "aaa", size: 213, date: Date.now() + 20},
+        {name: "bbb", size: 4576, date: Date.now() - 4},
+        {name: "ccc", size: 563, date: Date.now() - 7},
+        {name: "ddd", size: 3713, date: Date.now() + 9},
+        {name: "eee", size: 389, date: Date.now() - 20},
+      ],
+      selected: "name",
+      trend: 1  //记录排序方式升降序
+    });
+    model.$watch("selected", function(v){
+      var t = parseFloat(model.trend);
+      model.data.sort(function(a, b){
+        var ret = a[v] > b[v] ? 1 : -1;
+        return t * ret;
+      });
+    });
+    model.$watch("trend", function(t){
+      var v = model.selected, t = parseFloat(t);
+      model.data.sort(function (a, b) {
+        var ret = a[v] > b[v] ? 1 : -1;
+        return t * ret;
+      });
+    });
+  </script>
+</head>
+<body ms-controller="repeatgrid">
+  <p>
+    <select ms-duplex="selected">
+      <option ms-repeat="options">{{el}}</option>
+    </select>
+    <select ms-duplex="trend">
+      <option value="1">up</option>
+      <option value = "-1">down</option>
+    </select>
+  </p>
+  <table width="500px" border="1">
+    <tr>
+      <th>name</th><th>size</th><th>date</th>
+    </tr>
+    <tr ms-repeat="data">
+      <td>{{el.name}}</td><td>{{el.size}}</td><td>{{el.date}}</td>
+    </tr>
+  </table>
+</body>
+</html>
